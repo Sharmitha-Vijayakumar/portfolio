@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharmitha Vijayakumar - Data Analyst Portfolio</title>
+    <link rel="stylesheet" href="Styles.css">
+    <script src="Script.js" defer></script>
+    <link rel="icon" type="image/png" href="https://via.placeholder.com/32">
+    <meta name="description" content="Portfolio of Sharmitha Vijayakumar, Data Analyst specializing in Business Intelligence, Forecasting, and Customer Analytics.">
+    <meta name="keywords" content="Data Analyst, Business Intelligence, Data Visualization, Predictive Analytics, SQL, Python, Power BI, Tableau, Excel">
+    <meta name="author" content="Sharmitha Vijayakumar">        
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-section">
+                <div class="logo-box">
+                    <!-- Place profile image inside logo box -->
+                    <img src="./image/pic.jpeg" alt="Profile Photo" class="logo-profile-img" loading="lazy">
+                </div>
+                <span>Sharmitha Vijayakumar.</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu" role="navigation">
+                <li><a href="#" onclick="showPage('home')" class="active">Home</a></li>
+                <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://github.com/sharmitha-analytics" target="_blank" title="GitHub">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/sharmitha-vijayakumar" target="_blank" title="LinkedIn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="mailto:sharmithavijayakumarofficial@gmail.com" title="Email">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+                    </svg>
+                </a>
+            </div>
+
+
+            <!-- Hamburger Menu -->
+            <button class="hamburger-menu" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div class="mobile-menu-header">
+                <button class="menu-close" onclick="closeMobileMenu()" aria-label="Close menu">×</button>
+                <div class="profile-section">
+                    <!-- Remove profile photo from mobile menu -->
+                    <div class="profile-info">
+                        <h3>Sharmitha</h3>
+                        <p>Data Analyst</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="mobile-nav-links">
+                <a href="#" onclick="showPage('home')" class="active">
+                    <svg width="22" height="22" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    Home
+                </a>
+                <a href="#" onclick="showPage('projects')">
+                    <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    Projects
+                </a>
+                <a href="#" onclick="showPage('about')">
+                    <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    About
+                </a>
+                <a href="#" onclick="showPage('contact')">
+                    <svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Contact
+                </a>
+            </nav>
+            <div class="mobile-connect connect-box">
+                <h3>CONNECT</h3>
+                <div class="connect-icons">
+                    <a href="https://linkedin.com/in/sharmitha-vijayakumar" target="_blank" aria-label="LinkedIn">
+                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:sharmithavijayakumarofficial@gmail.com" aria-label="Email">
+                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Sharmitha-Vijayakumar" target="_blank" aria-label="GitHub">
+                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="home-container">
+            <div class="home-content">
+                <div class="home-text">
+                    <div class="role-badge">
+                        📊 Data Analyst
+                    </div>
+                    <h1>
+                        Sharmitha<br>
+                        <strong>Vijayakumar</strong>
+                    </h1>
+                    <p class="tagline">
+                        Data Analyst | Business Intelligence | Data Visualization | Predictive Analytics | SQL, Python & Power BI | Turning Data into Business Insight
+                    </p>
+                    <p class="description">
+                        Data Analyst with MBA (Dublin Business School) and MSc in Statistics, specializing in turning complex data into actionable business insight using Python, R, SQL, Power BI, Tableau, and Excel; experienced in predictive analytics and stakeholder-facing storytelling. Proven impacts include 85%-accuracy forecasting models, 30% reduction in reporting inconsistencies via data quality initiatives, and optimization of mobile tower grid performance cutting downtime from 40% to 10%.
+                    </p>
+                    <div class="tags-section">
+                        <span class="tag">Business Intelligence & Data Visualization</span>
+                        <span class="tag">Predictive Analytics & Time-Series Forecasting</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="metrics-card">
+                        <h3 class="metrics-header">Key Metrics</h3>
+                        <span class="trending-icon">📈</span>
+                        <div class="metric-item">
+                            <span class="metric-label">Energy Savings</span>
+                            <span class="metric-value green">30% ↓</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Downtime Reduction</span>
+                            <span class="metric-value blue">40% → 10%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Forecast Accuracy</span>
+                            <span class="metric-value purple">92%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Data Quality</span>
+                            <span class="metric-value orange">+30%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div id="projects" class="page">
+        <div class="projects-container">
+            <div class="page-header">
+                <h1>Data Analytics Projects</h1>
+                <p>A comprehensive showcase of data-driven solutions that deliver measurable business impact across various industries and analytical domains.</p>
+            </div>
+
+            <div class="search-filter">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search projects, tools, or keywords..." onkeyup="searchProjects(this.value)">
+                </div>
+                <span class="project-count">8 of 8 projects</span>
+            </div>
+
+            <div class="filter-pills">
+                <button class="filter-pill active" onclick="filterProjects('all')">All</button>
+                <button class="filter-pill" onclick="filterProjects('iot')">IoT</button>
+                <button class="filter-pill" onclick="filterProjects('energy')">Energy Optimization</button>
+                <button class="filter-pill" onclick="filterProjects('timeseries')">Time-Series</button>
+                <button class="filter-pill" onclick="filterProjects('predictive')">Predictive Modeling</button>
+                <button class="filter-pill" onclick="filterProjects('infrastructure')">Infrastructure</button>
+                <button class="filter-pill" onclick="filterProjects('clustering')">Clustering</button>
+                <button class="filter-pill" onclick="filterProjects('segmentation')">Segmentation</button>
+                <button class="filter-pill" onclick="filterProjects('business')">Business Strategy</button>
+                <button class="filter-pill" onclick="filterProjects('forecasting')">Forecasting</button>
+                <button class="filter-pill" onclick="filterProjects('dashboard')">Dashboard</button>
+                <button class="filter-pill" onclick="filterProjects('etl')">ETL</button>
+            </div>
+
+            <div class="projects-grid">
+                <!-- New Project: COVID-19 Data Story -->
+                <div class="project-card" data-tags="covid pandemic data story dashboard forecasting timeseries" onclick="openProjectDetail('covid-data-story')">
+                    <div class="project-image slideshow" data-images='["./image/covid.png","./image/covid1.png"]'>
+                        <img src="./image/covid.png" alt="COVID-19 Data Story" class="slide-img">
+                        <div class="view-details-btn" data-project="covid-data-story-dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">COVID-19 Data Story: Mortality & Economic Impact</h3>
+                        <p class="project-subtitle">Statistical Analysis, Forecasting & Interactive Dashboard</p>
+                        <p class="project-description">Comprehensive analytical journey through pandemic data, revealing critical insights about mortality trends, economic disruption, and time-series forecasting across sectors using advanced statistical techniques and interactive visualizations.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Pandemic Analysis</span>
+                            <span class="project-tag">Economic Impact</span>
+                            <span class="project-tag">Statistical Modeling</span>
+                            <span class="project-tag">Forecasting</span>
+                            <span class="project-tag">Time Series</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Data Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Project: Indian Students Abroad Analytics (second priority) -->
+                <div class="project-card" data-tags="students abroad migration education forecasting timeseries dashboard" onclick="openProjectDetail('indian-students-abroad')">
+                    <div class="project-image slideshow" data-images='["./image/student.png","./image/student1.png","./image/student2.png","./image/student3.png","./image/student4.png"]'>
+                        <img src="./image/student.png" alt="Indian Students Abroad Analytics" class="slide-img">
+                        <div class="view-details-btn" data-project="indian-students-abroad-dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Indian Students Abroad Analytics</h3>
+                        <p class="project-subtitle">Global Migration, Forecasting & Economic Impact</p>
+                        <p class="project-description">Comprehensive dashboard analyzing 1.8M+ Indian students abroad, $50B+ annual spend, migration trends, policy impacts, and predictive forecasting across 18+ countries (2020–2025).</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Education Migration</span>
+                            <span class="project-tag">Forecasting</span>
+                            <span class="project-tag">Economic Impact</span>
+                            <span class="project-tag">Dashboard</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Data Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 1 -->
+                <div class="project-card" data-tags="forecasting business predictive" onclick="openProjectDetail('sales-forecasting')">
+                    <div class="project-image slideshow" data-images='["./image/amazon.png","./image/amazon2.png"]'>
+                        <img src="./image/amazon.png" alt="Sales Forecasting" class="slide-img">
+                        <div class="view-details-btn" data-project="amazon_sales_dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Amazon Sales Dashboard</h3>
+                        <p class="project-subtitle">Predictive Growth Modeling</p>
+                        <p class="project-description">This project demonstrates advanced Power BI skills, business analytics expertise, and professional software development practices. The combination of visual appeal, technical depth, and proper documentation makes it an excellent portfolio piece for data analyst or business intelligence roles.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">87%+ forecast accuracy</span>
+                            <span class="project-tag">Growth Prediction</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Amazon Business Intelligence Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-tags="dashboard executive business" onclick="openProjectDetail('executive-dashboard')">
+                    <div class="project-image slideshow" data-images='["./image/construction.png","./image/construction2.png"]'>
+                        <img src="./image/construction.png" alt="Executive Dashboard" class="slide-img">
+                        <div class="view-details-btn" data-project="construction_executive_dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Executive Dashboards for Leadership</h3>
+                        <p class="project-subtitle">Strategic Data Visualization</p>
+                        <p class="project-description">Created Tableau dashboards and data stories accelerating strategic decisions for C-suite leadership team.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">C-Suite Ready</span>
+                            <span class="project-tag">Real-time</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 BI Developer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-tags="etl quality data" onclick="openProjectDetail('data-quality')">
+                    <div class="project-image slideshow" data-images='["./image/data-quality.png","./image/data-quality1.png"]'>
+                        <img src="./image/data-quality.png" alt="Data Quality" class="slide-img">
+                        <div class="view-details-btn" data-project="data_quality_dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Data Quality & Integration Pipeline</h3>
+                        <p class="project-subtitle">ETL Process Optimization</p>
+                        <p class="project-description">Implemented cleaning processes reducing inconsistencies by 30% and improving reporting accuracy across all business units.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">30% Improvement</span>
+                            <span class="project-tag">Data Accuracy</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Data Engineer/Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card" data-tags="iot energy timeseries" onclick="openProjectDetail('energy-analytics')">
+                    <div class="project-image slideshow" data-images='["./image/iot.png","./image/iot1.png"]'>
+                        <img src="./image/iot.png" alt="IoT Energy" class="slide-img">
+                        <div class="view-details-btn" data-project="iot-energy-dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Energy Analytics for Smart Apartments</h3>
+                        <p class="project-subtitle">IoT Data Analysis & Optimization</p>
+                        <p class="project-description">Optimized appliance usage patterns and reduced energy consumption by 30% across a 250-unit community using advanced analytics and IoT data.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">30% Reduction</span>
+                            <span class="project-tag">250 Units</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 IoT Data Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card" data-tags="infrastructure predictive timeseries" onclick="openProjectDetail('tower-reliability')">
+                    <div class="project-image slideshow" data-images='["./image/tower1.png","./image/tower2.png","./image/Tower.png"]'>
+                        <img src="./image/tower1.png" alt="Tower Reliability" class="slide-img">
+                        <div class="view-details-btn" data-project="mobile-tower.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Mobile Tower Energy & Emissions Dashboard</h3>
+                        <p class="project-subtitle">Infrastructure Sustainability Prediction</p>
+                        <p class="project-description">To analyze global trends in mobile network energy use and greenhouse gas emissions, quantify how increasing the share of renewables at mobile tower sites impacts total network carbon footprint, and offer actionable insights for policy and industry.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">30–50% emission cuts</span>
+                            <span class="project-tag">sustainability plannin</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Data Analyst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card" data-tags="clustering segmentation business" onclick="openProjectDetail('customer-segmentation')">
+                    <div class="project-image slideshow" data-images='["./image/customer.png","./image/customer1.png"]'>
+                        <img src="./image/customer.png" alt="Customer Segmentation" class="slide-img">
+                        <div class="view-details-btn" data-project="customer_segmentation_dashboard.html">View Details →</div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Promotion/Market Segmentation</h3>
+                        <p class="project-subtitle">Advanced Customer Clustering</p>
+                        <p class="project-description">Performed advanced clustering to surface 3 growth segments guiding BD strategy with 85% accuracy in customer classification.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">3 Segments</span>
+                            <span class="project-tag">Growth Strategy</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-stat">👤 Data Analyst</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="about-container">
+            <div class="about-header">
+                <h1>About Me</h1>
+                <p>Passionate data analyst with expertise in transforming complex datasets into actionable business insights</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-sidebar">
+                    <div class="quick-stats">
+                        <h3>Quick Stats</h3>
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">$500K+</div>
+                            <div class="stat-label">Cost Savings Generated</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">92%</div>
+                            <div class="stat-label">Avg. Model Accuracy</div>
+                        </div>
+                    </div>
+
+                    <h3>Specializations</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0;">• Business Intelligence & Data Visualization</li>
+                        <li style="padding: 0.5rem 0;">• Predictive Analytics & Time-Series Forecasting</li>
+                        <li style="padding: 0.5rem 0;">• Data Quality & Integration</li>
+                    </ul>
+                </div>
+
+                <div class="about-main">
+                    <h2>My Story</h2>
+                    <p>
+                        As a dedicated Data Analyst specializing in Business Intelligence and Insights, I bring a unique combination of technical expertise and business acumen to every project. My journey in data analytics has been driven by a passion for uncovering meaningful patterns in complex datasets and translating them into strategic business value.
+                    </p>
+                    <p>
+                        Throughout my career, I've had the privilege of working on diverse projects ranging from energy optimization in smart apartments to predictive modeling for telecommunications infrastructure. Each project has strengthened my belief that data, when properly analyzed and presented, can drive transformational business decisions.
+                    </p>
+                    <p>
+                        My approach combines rigorous statistical analysis with practical business understanding, ensuring that insights are not only accurate but also actionable. I'm particularly passionate about forecasting, customer analytics, and creating intuitive dashboards that empower stakeholders to make data-driven decisions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="skills-section">
+                <h2>Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">📊</div>
+                        <h3 class="skill-title">Programming Languages</h3>
+                        <div class="skill-items">
+                            <span class="skill-item">Python</span>
+                            <span class="skill-item">R</span>
+                            <span class="skill-item">SQL</span>
+                            <span class="skill-item">HTML</span>
+                            <span class="skill-item">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">📊</div>
+                        <h3 class="skill-title">Interpersonal Skills</h3>
+                        <div class="skill-items">
+                            <span class="skill-item">Communication</span>
+                            <span class="skill-item">Collaboration</span>
+                            <span class="skill-item">Problem-Solving</span>
+                            <span class="skill-item">Adaptability</span>
+                            <span class="skill-item">Critical Thinking</span>   
+                            <span class="skill-item">Leadership</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🎨</div>
+                        <h3 class="skill-title">Visualization Tools</h3>
+                        <div class="skill-items">
+                            <span class="skill-item">Power BI</span>
+                            <span class="skill-item">Tableau</span>
+                            <span class="skill-item">Excel</span>
+                            <span class="skill-item">Google Analytics</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">☁️</div>
+                        <h3 class="skill-title">Databases & Cloud</h3>
+                        <div class="skill-items">
+                            <span class="skill-item">Teradata</span>
+                            <span class="skill-item">Oracle</span>
+                            <span class="skill-item">Microsoft Dynamics 365 CRM</span>
+                            <span class="skill-item">TensorFlow</span>
+                            <span class="skill-item">SPSS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-section">
+                <h2>Professional Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">July 2025 - Present</div>
+                        <div class="timeline-title">Deli Manager</div>
+                        <div class="timeline-company">Centra</div>
+                        <div class="timeline-description">
+                           -Led daily deli operations and a team of 4–8 across peak shifts; allocated tasks, set service pace, and maintained standards to meet sales, GP, and waste targets.<br>
+-Owned inventory routines: daily counts, FIFO/date rotation, waste tracking, and accurate supplier orders to par/forecast, reducing out-of-stocks and shrink.<br>
+-Ensured full HACCP compliance: temperature logs, allergen labeling, cook-chill/hot-hold records, and cleaning schedules, maintaining audit readiness.<br>
+-Elevated merchandising and availability: executed planograms, built attractive counters, and delivered seasonal/promotional setups that lifted impulse sales.<br>
+-Coached staff on service recovery and upselling; resolved customer queries quickly while sustaining a positive team culture.<br>
+-Assisted Store Manager with KPI reviews, action plans, onboarding/training, rota input, and implementing new initiatives.<br>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jan 2024 - Jun 2025</div>
+                        <div class="timeline-title">Deli Assistant</div>
+                        <div class="timeline-company">Centra</div>
+                        <div class="timeline-description">
+                            -Prepared hot and cold products to spec, maintained case presentation, and achieved service times during peak trading.<br>
+-Conducted stock checks, rotated product, printed labels, and flagged lows/approaching dates to support timely ordering.<br>
+-Completed daily/weekly cleaning and sanitising tasks, temperature logs, and followed allergen and traceability procedures.<br>
+-Delivered friendly, efficient counter service including slicing, portioning, sampling, and recommending add-ons/meal deals.<br>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mar 2022 - Aug 2023</div>
+                        <div class="timeline-title">Senior Analyst, Product Integration</div>
+                        <div class="timeline-company">Sai Builders</div>
+                        <div class="timeline-description">
+                            -Developed advanced predictive models using time-series analysis to optimize energy consumption patterns and grid performance for mobile tower infrastructure, reducing system downtime from 40% to 10%.<br>
+-Spearheaded B2B client technical onboarding via REST APIs and SFTP, improving go-live time by refining configuration checklists and test reviews while maintaining information security standards.<br>
+-Built reusable runbooks, payload validation templates (regex), and post-implementation SOPs that improved first-pass test acceptance and lowered ongoing ticket volume while enhancing customer support and aligning with corporate security policies.<br>
+-Managed competing demands across multiple projects simultaneously with structured RAID logs and weekly status reporting to align internal and external expectations, demonstrating strong project manager capabilities.<br>
+-Provided customer-facing support and analysis for product integration initiatives, ensuring seamless transitions and client satisfaction.<br>
+-Created executive-level visualizations and reports to communicate complex energy consumption insights to C-level stakeholders, resulting in 15% improvement in grid efficiency.<br>
+-Spearheaded data integration and quality initiatives, implementing cleaning processes that reduced data inconsistencies by 30% and improved reporting accuracy across multiple data sources, supporting secure technology solutions for payments and SaaS platforms.<br>
+-Created real-time, automated reporting systems for energy monitoring and resource allocation.<br>
+-Train and mentor junior support staff, fostering a culture of collaboration and continuous improvement while reinforcing adherence to security practices and organizational policies.<br>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 2021 - Feb 2022</div>
+                        <div class="timeline-title">Data Analyst & Technical Sales Specialist</div>
+                        <div class="timeline-company">Sai Builders</div>
+                        <div class="timeline-description">
+                            -Performed market segmentation analysis to identify fresh market segments and areas of growth, aligning findings with customer implementation strategies for digital payments solutions.<br>
+-Served as primary technical liaison for 10+ enterprise clients, managing comprehensive support portfolios through regular business reviews, escalations, and monitoring while ensuring confidentiality and security compliance.<br>
+-Drove critical issue resolution by collaborating cross-functionally with engineering, sales, and management teams, achieving 30% improvement in average resolution time.<br>
+-Supported live customers with account updates, routing/profile changes, and operational inquiries; implemented minor config changes safely through documented change controls, ensuring alignment with corporate security standards.<br>
+-Monitored daily SFTP drops and API health, escalating anomalies and providing actionable recommendations to improve stability KPIs across supported accounts, while reinforcing information security practices.<br>
+-Authored knowledge base articles and quick-start guides to reduce onboarding friction for new customers and internal teammates, supporting SaaS product integration and customer support efficiency.<br>
+-Analyzed and optimized internal systems to improve data flow and integration for product launches.<br>
+-Coordinated data-driven monthly business meetings to review case trends, prioritize initiatives based on business impact, and ensure transparency in resolution timelines while aligning with organizational security policies.<br>
+-Performed root cause analysis for critical system outages, documenting findings and contributing to preventive strategies that improved customer confidence, platform stability, and adherence to information security guidelines.<br>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Dec 2020 - Apr 2021</div>
+                        <div class="timeline-title">Data Analyst</div>
+                        <div class="timeline-company">IndraInsignia</div>
+                        <div class="timeline-description">
+                            -Performed market segmentation analysis to identify fresh market segments and areas of growth, aligning findings with customer implementation strategies for digital payments solutions.
+-Served as primary technical liaison for 10+ enterprise clients, managing comprehensive support portfolios through regular business reviews, escalations, and monitoring while ensuring confidentiality and security compliance.
+-Drove critical issue resolution by collaborating cross-functionally with engineering, sales, and management teams, achieving 30% improvement in average resolution time
+-Supported live customers with account updates, routing/profile changes, and operational inquiries; implemented minor config changes safely through documented change controls, ensuring alignment with corporate security standards.
+-Monitored daily SFTP drops and API health, escalating anomalies and providing actionable recommendations to improve stability KPIs across supported accounts, while reinforcing information security practices.
+-Authored knowledge base articles and quick-start guides to reduce onboarding friction for new customers and internal teammates, supporting SaaS product integration and customer support efficiency.
+-Analyzed and optimized internal systems to improve data flow and integration for product launches
+-Coordinated data-driven monthly business meetings to review case trends, prioritize initiatives based on business impact, and ensure transparency in resolution timelines while aligning with organizational security policies.
+-Performed root cause analysis for critical system outages, documenting findings and contributing to preventive strategies that improved customer confidence, platform stability, and adherence to information security guidelines.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1>Contact</h1>
+                <p>I'm always open to discussing new data analytics projects, consulting opportunities, or innovative ways to solve business challenges through data insights.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h2>💬 Send a Message</h2>
+                    <form class="contact-form form" onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" name="name" required placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" name="email" required placeholder="your.email@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject *</label>
+                            <input type="text" name="subject" required placeholder="What's this about?">
+                        </div>
+                        <div class="form-group">
+                            <label>Message *</label>
+                            <textarea name="message" required placeholder="Tell me about your project, question, or how I can help..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message ✈️</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h2>Contact Information</h2>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:sharmithavijayakumarofficial@gmail.com">sharmithavijayakumarofficial@gmail.com</a>
+                            <p>Send me an email anytime</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h3>GitHub</h3>
+                            <a href="https://github.com/Sharmitha-Vijayakumar" target="_blank">github.com/Sharmitha-Vijayakumar</a>
+                            <p>Check out my code repositories</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🔗</div>
+                        <div class="contact-details">
+                            <h3>LinkedIn</h3>
+                            <a href="https://www.linkedin.com/in/sharmitha-vijayakumar/" target="_blank">Connect with me</a>
+                            <p>Professional networking</p>
+                        </div>
+                    </div>
+
+                    <div class="response-time">
+                        <h3>Response Time</h3>
+                        <div class="response-item">
+                            <span>Email:</span>
+                            <span>24-48 hours</span>
+                        </div>
+                        <div class="response-item">
+                            <span>LinkedIn:</span>
+                            <span>Same day</span>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- .contact-grid -->
+        </div> <!-- .contact-container -->
+    </div> <!-- #contact.page -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sharmitha Vijayakumar</h3>
+                <p>Data Analyst specializing in Business Intelligence, Forecasting, and Customer Analytics. Transforming data into actionable insights for strategic business decisions.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                    <li><a href="#" onclick="showPage('about')">About</a></li>
+                    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Specializations</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Business Intelligence & Data Visualization</a></li>
+                    <li><a href="#">Predictive Analytics & Time-Series Forecasting</a></li>
+                    <li><a href="#">Data Quality & Integration</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Sharmitha-Vijayakumar" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/sharmitha-vijayakumar/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:sharmithavijayakumarofficial@gmail.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Sharmitha Vijayakumar. All rights reserved. | Built with ❤️ using React & Tailwind CSS</p>
+        </div>
+    </footer>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <h2 id="modalTitle">Project Title</h2>
+                <p id="modalSubtitle">Project Subtitle</p>
+            </div>
+            <div class="modal-body">
+                <div class="powerbi-section">
+                    <h3>Interactive Power BI Dashboard</h3>
+                    <div class="powerbi-info">
+                        <p>This is a fully interactive Power BI dashboard. You can:</p>
+                        <p>• Click on different visualizations to filter data</p>
+                        <p>• Change date ranges and parameters</p>
+                        <p>• Drill down into specific metrics</p>
+                        <p>• Export data and reports</p>
+                    </div>
+                    <iframe id="powerbiEmbed" class="powerbi-embed" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiZmE3ZjQwMjEtOTg3OS00YzM4LWE4ZjAtNDY0NzI0YmFkYjI3IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9" 
+                            frameborder="0" allowFullScreen="true"></iframe>
+                </div>
+                <!-- Add both iframes inside the modal; only one will be shown at a time -->
+<iframe id="powerbiEmbed" class="powerbi-embed" style="width:100%;height:600px;display:block;"></iframe>
+<iframe id="htmlEmbed" style="width:100%;height:600px;display:none;border-radius:8px;border:1px solid #e2e8f0;"></iframe>
+
+                <div class="project-details-grid">
+                    <div class="detail-card">
+                        <h4>Project Overview</h4>
+                        <p id="modalDescription">Project description goes here...</p>
+                        <h4 style="margin-top: 1.5rem;">Key Results</h4>
+                        <ul id="modalResults">
+                            <li>✓ Result 1</li>
+                        </ul>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Technical Implementation</h4>
+                        <p>Technologies and tools used:</p>
+                        <div id="modalTech" class="skill-items" style="margin-top: 1rem;">
+                            <span class="skill-item">Power BI</span>
+                        </div>
+                        <h4 style="margin-top: 1.5rem;">Data Sources</h4>
+                        <p id="modalDataSources">Kaggle datasets, real-time APIs</p>
+                        <a id="githubLink" href="#" target="_blank" class="github-btn">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

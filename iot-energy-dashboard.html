@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Apartment IoT Energy Analytics Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #334155;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        select, input {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            background: white;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #10B981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10B981, #3B82F6);
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .card-value {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .kpi-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-card.energy-savings {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .kpi-card.cost-savings {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .kpi-card.uptime {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.05) 0%, rgba(13, 148, 136, 0.1) 100%);
+            border-color: rgba(13, 148, 136, 0.2);
+        }
+
+        .kpi-card.waste-reduction {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .kpi-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .kpi-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.25rem;
+        }
+
+        .kpi-description {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin-top: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .custom-chart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .line-chart {
+            position: relative;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .line-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            height: 100%;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #10B981, #3B82F6);
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+        }
+
+        .bar:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+            text-align: center;
+            width: 100%;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1e293b;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .scatter-plot {
+            position: relative;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .scatter-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #0D9488;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .scatter-point:hover {
+            transform: scale(1.5);
+            z-index: 10;
+        }
+
+        .gauge-container {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .efficiency-gauge {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #10B981 0deg, #10B981 var(--angle), #e2e8f0 var(--angle));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: gaugeRotate 2s ease-out;
+        }
+
+        @keyframes gaugeRotate {
+            from { --angle: 0deg; }
+            to { --angle: 306deg; }
+        }
+
+        .efficiency-gauge::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .gauge-value {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .gauge-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .gauge-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            margin-top: 1rem;
+            height: 200px;
+        }
+
+        .apartment-unit {
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            animation: unitFadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes unitFadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .apartment-unit:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .apartment-unit::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+
+        .apartment-unit:hover::after {
+            opacity: 1;
+        }
+
+        .apartment-unit.high-efficiency {
+            background: #10B981;
+        }
+
+        .apartment-unit.medium-efficiency {
+            background: #F59E0B;
+        }
+
+        .apartment-unit.low-efficiency {
+            background: #EF4444;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .data-table {
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-excellent { background: #10B981; }
+        .status-good { background: #3B82F6; }
+        .status-fair { background: #F59E0B; }
+        .status-poor { background: #EF4444; }
+
+        .floating-updates {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .update-notification {
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            max-width: 300px;
+        }
+
+        .update-notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .update-notification.hide {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+
+        .energy-wave {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .energy-line {
+            stroke: #10B981;
+            stroke-width: 3;
+            fill: none;
+            filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+        }
+
+        .energy-area {
+            fill: url(#energyGradient);
+            opacity: 0.3;
+        }
+
+        .axis-label {
+            font-size: 10px;
+            fill: #64748b;
+            font-weight: 500;
+        }
+
+        .grid-line {
+            stroke: rgba(226, 232, 240, 0.5);
+            stroke-width: 1;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem 2rem;
+            }
+
+            .dashboard-controls {
+                margin: 1rem;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-content {
+                text-align: center;
+            }
+
+            .header-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .floating-updates {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .update-notification {
+                max-width: none;
+                transform: translateY(100px);
+            }
+
+            .update-notification.show {
+                transform: translateY(0);
+            }
+
+            .update-notification.hide {
+                transform: translateY(100px);
+            }
+
+            .building-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>🏢 Smart Apartment IoT Energy Analytics</h1>
+            </div>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Live Data • 250 Units</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Controls -->
+    <div class="dashboard-controls">
+        <div class="control-group">
+            <label>Apartment Type:</label>
+            <select id="apartmentFilter">
+                <option value="all">All Types</option>
+                <option value="studio">Studio</option>
+                <option value="1br">1 Bedroom</option>
+                <option value="2br">2 Bedroom</option>
+                <option value="3br">3 Bedroom</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Energy Plan:</label>
+            <select id="planFilter">
+                <option value="all">All Plans</option>
+                <option value="basic">Basic</option>
+                <option value="green">Green</option>
+                <option value="premium">Premium</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Time Period:</label>
+            <select id="timeFilter">
+                <option value="hourly">Hourly</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card energy-savings">
+                <div class="kpi-number" id="energyReduction">35%</div>
+                <div class="kpi-label">Energy Reduction</div>
+                <div class="kpi-description">Across all 250 units</div>
+            </div>
+            <div class="kpi-card cost-savings">
+                <div class="kpi-number" id="monthlySavings">$180</div>
+                <div class="kpi-label">Average Monthly Savings</div>
+                <div class="kpi-description">Per household</div>
+            </div>
+            <div class="kpi-card uptime">
+                <div class="kpi-number" id="systemUptime">99.97%</div>
+                <div class="kpi-label">System Uptime</div>
+                <div class="kpi-description">12M+ data points processed</div>
+            </div>
+            <div class="kpi-card waste-reduction">
+                <div class="kpi-number" id="wasteReduction">90%</div>
+                <div class="kpi-label">Energy Waste Eliminated</div>
+                <div class="kpi-description">Through predictive analytics</div>
+            </div>
+        </div>
+
+        <!-- Real-time Energy Monitor -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Real-time Energy Consumption</h3>
+                <span class="card-value">Live • kWh</span>
+            </div>
+            <div class="chart-container">
+                <div class="custom-chart energy-wave">
+                    <svg width="100%" height="100%" viewBox="0 0 400 240">
+                        <defs>
+                            <linearGradient id="energyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#10B981;stop-opacity:0.05" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid lines -->
+                        <g class="grid">
+                            <line x1="40" y1="20" x2="40" y2="200" class="grid-line"/>
+                            <line x1="40" y1="200" x2="380" y2="200" class="grid-line"/>
+                            <line x1="40" y1="60" x2="380" y2="60" class="grid-line"/>
+                            <line x1="40" y1="120" x2="380" y2="120" class="grid-line"/>
+                            <line x1="40" y1="160" x2="380" y2="160" class="grid-line"/>
+                        </g>
+                        
+                        <!-- Energy consumption line -->
+                        <path id="energyPath" class="energy-line" d="M40,180 Q80,160 120,140 T200,120 T280,100 T360,80"/>
+                        <path id="energyArea" class="energy-area" d="M40,180 Q80,160 120,140 T200,120 T280,100 T360,80 L360,200 L40,200 Z"/>
+                        
+                        <!-- Data points -->
+                        <g id="dataPoints"></g>
+                        
+                        <!-- Labels -->
+                        <text x="20" y="25" class="axis-label">70</text>
+                        <text x="20" y="65" class="axis-label">60</text>
+                        <text x="20" y="125" class="axis-label">40</text>
+                        <text x="20" y="165" class="axis-label">30</text>
+                        <text x="20" y="205" class="axis-label">20</text>
+                        
+                        <text x="50" y="220" class="axis-label">6AM</text>
+                        <text x="120" y="220" class="axis-label">12PM</text>
+                        <text x="200" y="220" class="axis-label">6PM</text>
+                        <text x="280" y="220" class="axis-label">12AM</text>
+                        <text x="340" y="220" class="axis-label">6AM</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Efficiency Score Gauge -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Building Efficiency Score</h3>
+                <span class="card-value">Current Average</span>
+            </div>
+            <div class="gauge-container">
+                <div class="efficiency-gauge" style="--angle: 306deg;">
+                    <div class="gauge-value">
+                        <div class="gauge-number">85%</div>
+                        <div class="gauge-label">Excellent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Analysis -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Cost Analysis by Energy Plan</h3>
+                <span class="card-value">Monthly USD</span>
+            </div>
+            <div class="chart-container">
+                <div class="custom-chart bar-chart" id="costChart">
+                    <div class="bar" style="height: 80%; background: linear-gradient(to top, #3B82F6, #60A5FA);">
+                        <div class="bar-value">$165</div>
+                        <div class="bar-label">Basic</div>
+                    </div>
+                    <div class="bar" style="height: 70%; background: linear-gradient(to top, #10B981, #34D399);">
+                        <div class="bar-value">$149</div>
+                        <div class="bar-label">Green</div>
+                    </div>
+                    <div class="bar" style="height: 60%; background: linear-gradient(to top, #F59E0B, #FBBF24);">
+                        <div class="bar-value">$132</div>
+                        <div class="bar-label">Premium</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Building Heatmap -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Building Energy Heatmap</h3>
+                <span class="card-value">250 Apartments • Efficiency View</span>
+            </div>
+            <div class="building-grid" id="buildingGrid"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color high-efficiency" style="background: #10B981;"></div>
+                    <span>High (90%+)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color medium-efficiency" style="background: #F59E0B;"></div>
+                    <span>Medium (70-89%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color low-efficiency" style="background: #EF4444;"></div>
+                    <span>Low (<70%)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Environmental Analytics -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Environmental Impact</h3>
+                <span class="card-value">Temperature vs Consumption</span>
+            </div>
+            <div class="chart-container">
+                <div class="custom-chart scatter-plot" id="environmentChart"></div>
+            </div>
+        </div>
+
+        <!-- Top Performing Apartments -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">Top Performing Apartments</h3>
+                <span class="card-value">By Efficiency Score</span>
+            </div>
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Apartment</th>
+                            <th>Type</th>
+                            <th>Efficiency</th>
+                            <th>Monthly Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performanceTable">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Updates -->
+    <div class="floating-updates" id="floatingUpdates"></div>
+
+    <script>
+        // Dashboard data
+        let dashboardData = {
+            apartments: [],
+            energyConsumption: [],
+            costs: [],
+            environmental: []
+        };
+
+        // Generate realistic sample data
+        function generateSampleData() {
+            const apartmentTypes = ['studio', '1br', '2br', '3br'];
+            const energyPlans = ['basic', 'green', 'premium'];
+            const hours = Array.from({length: 24}, (_, i) => i);
+
+            // Generate apartment data
+            for (let i = 1; i <= 250; i++) {
+                const type = apartmentTypes[Math.floor(Math.random() * apartmentTypes.length)];
+                const plan = energyPlans[Math.floor(Math.random() * energyPlans.length)];
+                const efficiencyScore = 70 + Math.random() * 28; // 70-98%
+                
+                dashboardData.apartments.push({
+                    id: `A${i.toString().padStart(3, '0')}`,
+                    type: type,
+                    plan: plan,
+                    efficiency: efficiencyScore,
+                    cost: Math.round((150 - (efficiencyScore - 70) * 2) + (Math.random() - 0.5) * 50),
+                    floor: Math.ceil(i / 25)
+                });
+            }
+
+            // Generate hourly energy consumption
+            hours.forEach(hour => {
+                const baseConsumption = 45 + Math.sin((hour - 6) * Math.PI / 12) * 25;
+                const consumption = Math.max(15, baseConsumption + (Math.random() - 0.5) * 10);
+                dashboardData.energyConsumption.push({
+                    hour: hour,
+                    consumption: consumption,
+                    cost: consumption * (hour >= 17 && hour <= 21 ? 0.18 : 0.12)
+                });
+            });
+
+            // Generate cost analysis by plan
+            energyPlans.forEach(plan => {
+                const multiplier = plan === 'premium' ? 0.8 : plan === 'green' ? 0.9 : 1.0;
+                dashboardData.costs.push({
+                    plan: plan,
+                    cost: Math.round(165 * multiplier),
+                    savings: Math.round((1 - multiplier) * 165)
+                });
+            });
+
+            // Generate environmental data
+            for (let temp = 68; temp <= 78; temp++) {
+                const consumption = 25 + Math.pow((temp - 72), 2) * 2 + Math.random() * 5;
+                dashboardData.environmental.push({
+                    temperature: temp,
+                    consumption: consumption
+                });
+            }
+        }
+
+        // Create data points for energy chart
+        function createEnergyDataPoints() {
+            const svg = document.querySelector('#energyPath').closest('svg');
+            const pointsGroup = document.getElementById('dataPoints');
+            
+            const points = [
+                {x: 40, y: 180, value: '22 kWh', time: '6AM'},
+                {x: 80, y: 160, value: '28 kWh', time: '9AM'},
+                {x: 120, y: 140, value: '35 kWh', time: '12PM'},
+                {x: 200, y: 120, value: '42 kWh', time: '6PM'},
+                {x: 280, y: 100, value: '48 kWh', time: '9PM'},
+                {x: 360, y: 80, value: '55 kWh', time: '12AM'}
+            ];
+
+            points.forEach((point, index) => {
+                setTimeout(() => {
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', point.x);
+                    circle.setAttribute('cy', point.y);
+                    circle.setAttribute('r', '4');
+                    circle.setAttribute('fill', '#10B981');
+                    circle.setAttribute('stroke', 'white');
+                    circle.setAttribute('stroke-width', '2');
+                    circle.style.cursor = 'pointer';
+                    
+                    // Add hover tooltip
+                    circle.addEventListener('mouseenter', function(e) {
+                        const tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                        tooltip.id = 'tooltip';
+                        
+                        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        rect.setAttribute('x', point.x - 25);
+                        rect.setAttribute('y', point.y - 35);
+                        rect.setAttribute('width', '50');
+                        rect.setAttribute('height', '25');
+                        rect.setAttribute('fill', '#1e293b');
+                        rect.setAttribute('rx', '4');
+                        
+                        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        text.setAttribute('x', point.x);
+                        text.setAttribute('y', point.y - 20);
+                        text.setAttribute('text-anchor', 'middle');
+                        text.setAttribute('fill', 'white');
+                        text.setAttribute('font-size', '10');
+                        text.textContent = point.value;
+                        
+                        tooltip.appendChild(rect);
+                        tooltip.appendChild(text);
+                        svg.appendChild(tooltip);
+                    });
+                    
+                    circle.addEventListener('mouseleave', function() {
+                        const tooltip = document.getElementById('tooltip');
+                        if (tooltip) tooltip.remove();
+                    });
+                    
+                    pointsGroup.appendChild(circle);
+                }, index * 200);
+            });
+        }
+
+        // Create scatter plot for environmental data
+        function createEnvironmentalScatter() {
+            const container = document.getElementById('environmentChart');
+            container.innerHTML = '';
+            
+            // Add labels and grid
+            const labels = document.createElement('div');
+            labels.style.position = 'absolute';
+            labels.style.bottom = '10px';
+            labels.style.left = '20px';
+            labels.style.fontSize = '12px';
+            labels.style.color = '#64748b';
+            labels.textContent = 'Temperature (°F) → Consumption (kWh)';
+            container.appendChild(labels);
+
+            dashboardData.environmental.forEach((point, index) => {
+                setTimeout(() => {
+                    const dot = document.createElement('div');
+                    dot.className = 'scatter-point';
+                    dot.style.left = ((point.temperature - 68) * 30 + 30) + 'px';
+                    dot.style.bottom = ((point.consumption - 25) * 4 + 30) + 'px';
+                    dot.title = `${point.temperature}°F → ${point.consumption.toFixed(1)} kWh`;
+                    container.appendChild(dot);
+                }, index * 100);
+            });
+        }
+
+        // Generate Building Heatmap
+        function generateBuildingHeatmap() {
+            const buildingGrid = document.getElementById('buildingGrid');
+            buildingGrid.innerHTML = '';
+
+            dashboardData.apartments.forEach((apt, index) => {
+                setTimeout(() => {
+                    const unit = document.createElement('div');
+                    unit.className = 'apartment-unit';
+                    unit.style.animationDelay = `${index * 10}ms`;
+                    unit.setAttribute('data-tooltip', `${apt.id} - ${apt.type} - ${apt.efficiency.toFixed(1)}%`);
+                    
+                    if (apt.efficiency >= 90) {
+                        unit.classList.add('high-efficiency');
+                    } else if (apt.efficiency >= 70) {
+                        unit.classList.add('medium-efficiency');
+                    } else {
+                        unit.classList.add('low-efficiency');
+                    }
+                    
+                    buildingGrid.appendChild(unit);
+                }, Math.floor(index / 10) * 100);
+            });
+        }
+
+        // Populate Performance Table
+        function populatePerformanceTable() {
+            const tableBody = document.getElementById('performanceTable');
+            const topApartments = dashboardData.apartments
+                .sort((a, b) => b.efficiency - a.efficiency)
+                .slice(0, 5);
+
+            tableBody.innerHTML = '';
+            topApartments.forEach((apt, index) => {
+                setTimeout(() => {
+                    const row = document.createElement('tr');
+                    const status = apt.efficiency >= 90 ? 'excellent' : apt.efficiency >= 80 ? 'good' : apt.efficiency >= 70 ? 'fair' : 'poor';
+                    const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+                    
+                    row.innerHTML = `
+                        <td><strong>${apt.id}</strong></td>
+                        <td>${apt.type.toUpperCase()}</td>
+                        <td><strong>${apt.efficiency.toFixed(1)}%</strong></td>
+                        <td>$${apt.cost}</td>
+                        <td><span class="status-indicator status-${status}"></span>${statusLabel}</td>
+                    `;
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateY(20px)';
+                    tableBody.appendChild(row);
+                    
+                    setTimeout(() => {
+                        row.style.transition = 'all 0.5s ease';
+                        row.style.opacity = '1';
+                        row.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 200);
+            });
+        }
+
+        // Show floating updates
+        function showFloatingUpdate(message) {
+            const updatesContainer = document.getElementById('floatingUpdates');
+            const notification = document.createElement('div');
+            notification.className = 'update-notification';
+            notification.textContent = message;
+            
+            updatesContainer.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.classList.add('hide');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            const updates = [
+                "Apartment A156: Energy efficiency improved to 94%",
+                "Peak hour optimization saved $45 in building costs",
+                "HVAC system in Floor 8 automatically optimized",
+                "New energy waste pattern detected and resolved",
+                "Green energy plan showing 12% better performance"
+            ];
+            
+            let updateIndex = 0;
+            setInterval(() => {
+                showFloatingUpdate(updates[updateIndex % updates.length]);
+                updateIndex++;
+            }, 8000);
+        }
+
+        // Animate KPI numbers
+        function animateKPINumbers() {
+            const animateNumber = (element, target, suffix = '') => {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + suffix;
+                }, 40);
+            };
+
+            setTimeout(() => {
+                animateNumber(document.getElementById('energyReduction'), 35, '%');
+                animateNumber(document.getElementById('monthlySavings'), 180, '$');
+                animateNumber(document.getElementById('wasteReduction'), 90, '%');
+            }, 500);
+            
+            // Animate uptime separately for precision
+            setTimeout(() => {
+                let uptime = 99.90;
+                const timer = setInterval(() => {
+                    uptime += 0.01;
+                    if (uptime >= 99.97) {
+                        uptime = 99.97;
+                        clearInterval(timer);
+                    }
+                    document.getElementById('systemUptime').textContent = uptime.toFixed(2) + '%';
+                }, 100);
+            }, 1000);
+        }
+
+        // Initialize Dashboard
+        function initDashboard() {
+            generateSampleData();
+            generateBuildingHeatmap();
+            populatePerformanceTable();
+            createEnvironmentalScatter();
+            animateKPINumbers();
+            
+            // Initialize energy chart after delay
+            setTimeout(() => {
+                createEnergyDataPoints();
+            }, 1000);
+            
+            simulateRealTimeUpdates();
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', initDashboard);
+
+        // Filter functionality
+        document.getElementById('apartmentFilter').addEventListener('change', function() {
+            showFloatingUpdate(`Filter applied: ${this.value} apartments`);
+        });
+
+        document.getElementById('planFilter').addEventListener('change', function() {
+            showFloatingUpdate(`Energy plan filter: ${this.value}`);
+        });
+
+        document.getElementById('timeFilter').addEventListener('change', function() {
+            showFloatingUpdate(`Time period updated: ${this.value} view`);
+        });
+
+        // Add some dynamic effects
+        setTimeout(() => {
+            // Animate bars after load
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.animation = 'none';
+                    bar.style.height = '0%';
+                    bar.style.transition = 'height 1s ease-out';
+                    setTimeout(() => {
+                        bar.style.height = ['80%', '70%', '60%'][index];
+                    }, 100);
+                }, index * 200);
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
